@@ -24,75 +24,77 @@ public class FileReader {
 	int judgex = 0;
 	
 	/*
-	 * ¶ÔÊäÈë½øĞĞ·ÖÀà£¬²¢µ÷ÓÃÏàÓ¦µÄ·½·¨
+	 * å¯¹è¾“å…¥è¿›è¡Œåˆ†ç±»ï¼Œå¹¶è°ƒç”¨ç›¸åº”çš„æ–¹æ³•
 	 */
 	public int Chooser(String[] str){
 		judge = 0;
 		judgex = 0;
-		//¼ì²â·Ç·¨ÊäÈë-x
+		//æ£€æµ‹éæ³•è¾“å…¥-x
 		for(int i = 1; i < str.length-1; i++){
 			if(str[i].contains("-s"))
 				judge = 1;
 			if(str[i].contains("-x"))
 				judgex = 1;
 		}
-		//·Çµİ¹é²Ù×÷
+		//éé€’å½’æ“ä½œ
 		if(judge == 0 && judgex == 0){
 			File file = new File(str[str.length-1]);
 			if(file.isFile()){
 				for(String strs : Suffix)
-					if(file.toString().contains(strs))
+					if(file.toString().contains(strs)){
+						judge = 2;
 						break;
-					else{
-						System.out.println("²»Ö§³Ö¸Ãºó×ºÃûµÄ²éÕÒ");
-						System.out.println("½öÖ§³Ötxt,c,java,py,cpp,hµÄ²éÕÒ");
-						return judge;
 					}
+				if(judge != 2){
+					System.out.println("ä¸æ”¯æŒè¯¥åç¼€åçš„æŸ¥æ‰¾2");
+					System.out.println("ä»…æ”¯æŒtxt,c,java,py,cpp,hçš„æŸ¥æ‰¾");
+					return judge;
+				}
 				for(int j = 1; j < str.length-1; j++){
 					System.out.println("--------------------------------------------");
 					switch (str[j]) {
 					case "-a":
 						allLineNumber = allFunction.AllLineCount(str[str.length-1]);
-						System.out.println("¿ÕĞĞ£º" + allLineNumber[0] + "\n´úÂëĞĞ£º" + allLineNumber[1] + "\n×¢ÊÍĞĞ" + allLineNumber[2]);
+						System.out.println("ç©ºè¡Œï¼š" + allLineNumber[0] + "\nä»£ç è¡Œï¼š" + allLineNumber[1] + "\næ³¨é‡Šè¡Œ" + allLineNumber[2]);
 						break;
 					case "-l":
 						lineNumber = lineFunction.lineCount(str[str.length-1]);
-						System.out.println("ĞĞÊı£º" + lineNumber);
+						System.out.println("è¡Œæ•°ï¼š" + lineNumber);
 						break;
 					case "-w":
 						wordNumber = wordFunction.WordCount(str[str.length-1]);
-						System.out.println("µ¥´ÊÊı£º" + wordNumber);
+						System.out.println("å•è¯æ•°ï¼š" + wordNumber);
 						break;
 					case "-c":
 						charNumber = charFunction.charCount(str[str.length-1]);
-						System.out.println("×Ö·ûÊı£¨º¬¿Õ¸ñ£©£º" + charNumber[0] + "\n×Ö·ûÊı£¨²»º¬¿Õ¸ñ£©£º" + charNumber[1]);
+						System.out.println("å­—ç¬¦æ•°ï¼ˆå«ç©ºæ ¼ï¼‰ï¼š" + charNumber[0] + "\nå­—ç¬¦æ•°ï¼ˆä¸å«ç©ºæ ¼ï¼‰ï¼š" + charNumber[1]);
 						break;
 					case "-s":
 						break;
 					default:
-						System.out.println("²Ù×÷·ûÊäÈë´íÎó");
+						System.out.println("æ“ä½œç¬¦è¾“å…¥é”™è¯¯");
 						break;
 					}
 				}
 			}
 			else{
-				System.out.println("ÎÄ¼şÂ·¾¶²»ÕıÈ·£¬ÇëÖØĞÂÊäÈë");
-				System.out.println("ÈôÓĞÍ¨Åä·û£¬ÇëÊäÈë-s£¬ÈôĞèÒªÍ¼ĞÎ»¯½çÃæ£¬ÇëÊäÈë-x");
+				System.out.println("æ–‡ä»¶è·¯å¾„ä¸æ­£ç¡®ï¼Œè¯·é‡æ–°è¾“å…¥");
+				System.out.println("è‹¥æœ‰é€šé…ç¬¦ï¼Œè¯·è¾“å…¥-sï¼Œè‹¥éœ€è¦å›¾å½¢åŒ–ç•Œé¢ï¼Œè¯·è¾“å…¥-x");
 				return judge;
 			}
 		}
-		//-s²Ù×÷
+		//-sæ“ä½œ
 		else if(judge == 1 && judgex == 0){
 	        try{
 	            fileList = fileSearch.getFilesPath(str[str.length-1]);
 	            if(fileList == null){
-	            	//ÊäÈë´íÎóÂ·¾¶
-	            	System.out.println("Â·¾¶´íÎó£¬ÇëÊäÈëÕıÈ·µÄÂ·¾¶");
+	            	//è¾“å…¥é”™è¯¯è·¯å¾„
+	            	System.out.println("è·¯å¾„é”™è¯¯ï¼Œè¯·è¾“å…¥æ­£ç¡®çš„è·¯å¾„");
 	            	return judge;
 	            }
 	            else{
 	            	if(fileList.isEmpty()){
-	            		System.out.println("²éÕÒÊ§°Ü");
+	            		System.out.println("æŸ¥æ‰¾å¤±è´¥");
 	            		return judge;
 	            	}
 	            	else{
@@ -104,24 +106,24 @@ public class FileReader {
 	        					switch (str[j]) {
 	        					case "-a":
 	        						allLineNumber = allFunction.AllLineCount(strs);
-	        						System.out.println("¿ÕĞĞ£º" + allLineNumber[0] + "\n´úÂëĞĞ£º" + allLineNumber[1] + "\n×¢ÊÍĞĞ" + allLineNumber[2]);
+	        						System.out.println("ç©ºè¡Œï¼š" + allLineNumber[0] + "\nä»£ç è¡Œï¼š" + allLineNumber[1] + "\næ³¨é‡Šè¡Œ" + allLineNumber[2]);
 	        						break;
 	        					case "-l":
 	        						lineNumber = lineFunction.lineCount(strs);
-	        						System.out.println("ĞĞÊı£º" + lineNumber);
+	        						System.out.println("è¡Œæ•°ï¼š" + lineNumber);
 	        						break;
 	        					case "-w":
 	        						wordNumber = wordFunction.WordCount(strs);
-	        						System.out.println("µ¥´ÊÊı£º" + wordNumber);
+	        						System.out.println("å•è¯æ•°ï¼š" + wordNumber);
 	        						break;
 	        					case "-c":
 	        						charNumber = charFunction.charCount(strs);
-	        						System.out.println("×Ö·ûÊı£¨º¬¿Õ¸ñ£©£º" + charNumber[0] + "\n×Ö·ûÊı£¨²»º¬¿Õ¸ñ£©£º" + charNumber[1]);
+	        						System.out.println("å­—ç¬¦æ•°ï¼ˆå«ç©ºæ ¼ï¼‰ï¼š" + charNumber[0] + "\nå­—ç¬¦æ•°ï¼ˆä¸å«ç©ºæ ¼ï¼‰ï¼š" + charNumber[1]);
 	        						break;
 	        					case "-s":
 	        						break;
 	        					default:
-	        						System.out.println("²Ù×÷·ûÊäÈë´íÎó");
+	        						System.out.println("æ“ä½œç¬¦è¾“å…¥é”™è¯¯");
 	        						break;
 	        					}
 	            		}
@@ -130,12 +132,12 @@ public class FileReader {
 	        }catch (Exception e) {
 				// TODO: handle exception
 	        	e.getMessage();
-	        	System.out.println("¶ÁÈëÎÄ¼şÊ§°Ü");
+	        	System.out.println("è¯»å…¥æ–‡ä»¶å¤±è´¥");
 	        	return judge;
 			}
 		}
 		else {
-			System.out.println("ÊäÈë´íÎó£¬ÇëÖØĞÂÊäÈë");
+			System.out.println("è¾“å…¥é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥");
 			return judge;
 		}
 		return judge;
