@@ -7,15 +7,15 @@ import java.util.regex.Pattern;
 
 public class FileDirectorySearch {
 	static class StopMsgException extends RuntimeException {
-		//·ÀÖ¹µİ¹é¹ıÉî£¬×Ô¶¨Òåµİ¹éÒì³£
+		//é˜²æ­¢é€’å½’è¿‡æ·±ï¼Œè‡ªå®šä¹‰é€’å½’å¼‚å¸¸
 		public StopMsgException() {
 			// TODO Auto-generated constructor stub
-			super("µİ¹é¹ıÉî");
+			super("é€’å½’è¿‡æ·±");
 		}
     }
 
 	/*
-	 * µİ¹é²éÕÒÎÄ¼ş
+	 * é€’å½’æŸ¥æ‰¾æ–‡ä»¶
 	 */
 	
 	public List<String> getFilesPath(String str){
@@ -23,29 +23,31 @@ public class FileDirectorySearch {
 		File file = new File(str);
 		String dir = null;
 		String filePath = null;
-		String[] Suffix = {".txt", ".c", ".java", ".py", ".cpp", ".h"};		//¹æ¶¨¸Ã³ÌĞò¿ÉÒÔ¶ÁÈëµÄÎÄ¼ş
+		String[] Suffix = {".txt", ".c", ".java", ".py", ".cpp", ".h"};		//è§„å®šè¯¥ç¨‹åºå¯ä»¥è¯»å…¥çš„æ–‡ä»¶
+		int judges = 0;
 		if(str.contains("?") || str.contains("*")){
-			//´¦ÀíÍ¨Åä·û£¬ÓÉÓÚÎÄ¼şÂ·¾¶ÒÔ'\'·Ö¸ô£¬ËùÒÔ¼ì²â×îºóµÄ'\'À´»ñÈ¡ÎÄ¼şËùÔÚµÄÄ¿Â¼ºÍÀ©Õ¹Ãû
+			//å¤„ç†é€šé…ç¬¦ï¼Œç”±äºæ–‡ä»¶è·¯å¾„ä»¥'\'åˆ†éš”ï¼Œæ‰€ä»¥æ£€æµ‹æœ€åçš„'\'æ¥è·å–æ–‡ä»¶æ‰€åœ¨çš„ç›®å½•å’Œæ‰©å±•å
 			filePath = str.substring(0, str.lastIndexOf("\\"));
 			dir = str.substring(str.lastIndexOf("\\") + 1);	
 		}
 		else{
 			if(file.isFile()){
-				//´¦ÀíÎÄ¼ş£¬¹ıÂË²»ºÏÒªÇóµÄÎÄ¼ş
+				//å¤„ç†æ–‡ä»¶ï¼Œè¿‡æ»¤ä¸åˆè¦æ±‚çš„æ–‡ä»¶
 				for(String strs : Suffix)
 					if(file.toString().contains(strs)){
 						list.add(str);
+						judges = 1;
 						break;
 					}
-					else{
-						System.out.println("²»Ö§³Ö¸Ãºó×ºÃûµÄ²éÕÒ");
-						System.out.println("½öÖ§³Ötxt,c,java,py,cpp,hµÄ²éÕÒ");
-						return list;
-					}
+				if(judges != 1){
+					System.out.println("ä¸æ”¯æŒè¯¥åç¼€åçš„æŸ¥æ‰¾");
+					System.out.println("ä»…æ”¯æŒtxt,c,java,py,cpp,hçš„æŸ¥æ‰¾");
+					return list;
+				}
 				return list;
 			}
 			else if(file.isDirectory()){
-				//´¦ÀíÎÄ¼ş¼Ğ
+				//å¤„ç†æ–‡ä»¶å¤¹
 				dir = "*"; 
 				filePath = str;
 			}else
@@ -56,36 +58,35 @@ public class FileDirectorySearch {
 			Pattern p = getFiles(dir);
 			list = filePathGet(file2, p, 0);		
 			if(list.isEmpty()){
-				System.out.println("ÕÒ²»µ½¸ÃÀàĞÍÎÄ¼ş»òÍ¨Åä·ûÊäÈë²»ÕıÈ·");
-				System.out.println("½öÖ§³Ötxt,c,java,py,cpp,hµÄ²éÕÒ");
+				System.out.println("æ‰¾ä¸åˆ°è¯¥ç±»å‹æ–‡ä»¶æˆ–é€šé…ç¬¦è¾“å…¥ä¸æ­£ç¡®");
+				System.out.println("ä»…æ”¯æŒtxt,c,java,py,cpp,hçš„æŸ¥æ‰¾");
 			}
 		}catch(StopMsgException e){
-			System.out.println("¹ıÓÚÄ£ºı£¬ÇëÖØĞÂÊäÈëÂ·¾¶");
+			System.out.println("è¿‡äºæ¨¡ç³Šï¼Œè¯·é‡æ–°è¾“å…¥è·¯å¾„");
 		}
 		return list;
 	}
  
 	
 	public Pattern getFiles(String s) {   
-		//Í¨Åä·û±ä»»     
+		//é€šé…ç¬¦å˜æ¢     
 		s = s.replace('*', '#');   
 		s = s.replaceAll("#", ".*");   
 		s = s.replace('?', '#');   
 		s = s.replaceAll("#", ".?");     
-		System.out.println(s);
 		Pattern p = Pattern.compile(s);
 		return p;
 	}   
 
 	
 	public List<String> filePathGet(File file, Pattern p, int deep){
-		//½øĞĞµİ¹éËÑË÷ÎÄ¼ş£¬·µ»ØÒ»¸ö×Ö·û´®ÎÄ¼şÁĞ±í
+		//è¿›è¡Œé€’å½’æœç´¢æ–‡ä»¶ï¼Œè¿”å›ä¸€ä¸ªå­—ç¬¦ä¸²æ–‡ä»¶åˆ—è¡¨
 		List<String> list = new ArrayList<String>();
-		//µ±ÊäÈëÎªÒ»¸öÎÄ¼şÄ¿Â¼Ê±£¬±¾Ö»»á¶ÁÈ¡Õâ¼¸ÖÖºó×ºµÄÎÄ¼ş
+		//å½“è¾“å…¥ä¸ºä¸€ä¸ªæ–‡ä»¶ç›®å½•æ—¶ï¼Œæœ¬åªä¼šè¯»å–è¿™å‡ ç§åç¼€çš„æ–‡ä»¶
 		String[] Suffix = {".txt", ".c", ".java", ".py", ".cpp", ".h"};
 		Matcher matchFile = p.matcher(file.getName());
 		if(file.isFile() && matchFile.matches()){
-			//Óöµ½ÎÄ¼ş£¬·µ»ØÎÄ¼şÃû
+			//é‡åˆ°æ–‡ä»¶ï¼Œè¿”å›æ–‡ä»¶å
 			for(String strs : Suffix){
 				if(file.getName().endsWith(strs)){
 					list.add(file.toString());
@@ -95,19 +96,19 @@ public class FileDirectorySearch {
 			return list;
 		}
 		else if(file.isDirectory()){
-			//Óöµ½ÎÄ¼ş¼Ğ£¬»ñÈ¡ÎÄ¼ş¼ĞÏÂÃæµÄÄ¿Â¼
+			//é‡åˆ°æ–‡ä»¶å¤¹ï¼Œè·å–æ–‡ä»¶å¤¹ä¸‹é¢çš„ç›®å½•
 			File[] filePaths = file.listFiles();
 			if(filePaths != null){
 				for(int j = 0; j < filePaths.length; j++){
-					//deepµÄ×÷ÓÃÊÇ·ÀÖ¹µİ¹é¹ıÉî£¬³ÌĞò¿¨ËÀµÄÎÊÌâ
+					//deepçš„ä½œç”¨æ˜¯é˜²æ­¢é€’å½’è¿‡æ·±ï¼Œç¨‹åºå¡æ­»çš„é—®é¢˜
 					if(deep <= 100){
-						//¼ÌĞøµİ¹é
+						//ç»§ç»­é€’å½’
 						List<String> deepList = filePathGet(filePaths[j], p, ++deep);
 						if(!deepList.isEmpty())
 							list.addAll(deepList);
 					}
 					else{
-						//Å×³ö×Ô¶¨Òåµİ¹é¹ıÉîÒì³£
+						//æŠ›å‡ºè‡ªå®šä¹‰é€’å½’è¿‡æ·±å¼‚å¸¸
 						throw new StopMsgException();
 					}
 				}
