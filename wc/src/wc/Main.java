@@ -10,22 +10,22 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		System.out.println("--------------Ô´´úÂëÌØÕ÷Í³¼Æ³ÌĞò-------------");
-		System.out.println("²Ù×÷ËµÃ÷ÈçÏÂ£º");
-        System.out.println("Í³¼Æ×Ö·ûÊı:wc.exe -c [ÎÄ¼şÂ·¾¶]");
-        System.out.println("Í³¼Æ´ÊÊı:wc.exe -w [ÎÄ¼şÂ·¾¶]");
-        System.out.println("Í³¼ÆĞĞÊı:wc.exe -l [ÎÄ¼şÂ·¾¶]");
-        System.out.println("Í³¼Æ¿ÕĞĞ¡¢´úÂëĞĞ¡¢×¢ÊÍĞĞ:wc.exe -a [ÎÄ¼şÂ·¾¶]");
-        System.out.println("µİ¹é´¦ÀíÎÄ¼ş£¨¿ÉÒÔÎªÒ»¸öÎÄ¼şÄ¿Â¼»òÕß´øÓĞÍ¨Åä·û£©:wc.exe -s -ÉÏÃæÓĞµÄ²Ù×÷ [ÎÄ¼şÂ·¾¶]");
-        System.out.println("ÒÔÉÏ²Ù×÷¿ÉÒÔ¶à¸öÒ»ÆğÊ¹ÓÃ£¬Èç£ºwc.exe -s -a [ÎÄ¼şÂ·¾¶]");
-        System.out.println("¿ÉÊÓ»¯½çÃæ:wc.exe -x");
-        System.out.println("ÍË³ö²Ù×÷:quit");
+	System.out.println("--------------WCç¨‹åº-------------");
+	System.out.println("æ“ä½œè¯´æ˜å¦‚ä¸‹ï¼š");
+        System.out.println("ç»Ÿè®¡å­—ç¬¦æ•°:wc.exe -c [æ–‡ä»¶è·¯å¾„]");
+        System.out.println("ç»Ÿè®¡è¯æ•°:wc.exe -w [æ–‡ä»¶è·¯å¾„]");
+        System.out.println("ç»Ÿè®¡è¡Œæ•°:wc.exe -l [æ–‡ä»¶è·¯å¾„]");
+        System.out.println("ç»Ÿè®¡ç©ºè¡Œã€ä»£ç è¡Œã€æ³¨é‡Šè¡Œ:wc.exe -a [æ–‡ä»¶è·¯å¾„]");
+        System.out.println("é€’å½’å¤„ç†æ–‡ä»¶ï¼ˆå¯ä»¥ä¸ºä¸€ä¸ªæ–‡ä»¶ç›®å½•æˆ–è€…å¸¦æœ‰é€šé…ç¬¦ï¼‰:wc.exe -s -ä¸Šé¢æœ‰çš„æ“ä½œ [æ–‡ä»¶è·¯å¾„]");
+        System.out.println("ä»¥ä¸Šæ“ä½œå¯ä»¥å¤šä¸ªä¸€èµ·ä½¿ç”¨ï¼Œå¦‚ï¼šwc.exe -s -a [æ–‡ä»¶è·¯å¾„]");
+        System.out.println("å¯è§†åŒ–ç•Œé¢:wc.exe -x");
+        System.out.println("é€€å‡ºæ“ä½œ:quit");
         System.out.println("--------------------------------------------");
-        System.out.println("ÇëÊäÈëÖ¸Áî£º");
+        System.out.println("è¯·è¾“å…¥æŒ‡ä»¤ï¼š");
 		
         String fileHandle = null;
         String[] fileSpit = null;
-        //Ê¹ÓÃÕıÔò±í´ïÊ½¹æ¶¨ÊäÈë¸ñÊ½
+        //ä½¿ç”¨æ­£åˆ™è¡¨è¾¾å¼è§„å®šè¾“å…¥æ ¼å¼
         final String FILEMATCH = "(wc.exe|WC.exe)(\\s+(-c|-w|-l|-a|-s|-x))+(\\s+\\S+)";
         FileReader fileReader = new FileReader();
         UIFunction uiFunction = new UIFunction();
@@ -34,24 +34,24 @@ public class Main {
 			Scanner instruct = new Scanner(System.in);
 			fileHandle = instruct.nextLine();
 			fileSpit = fileHandle.split("\\s+");
-			//Í¼ĞÎ»¯½çÃæ
+			//å›¾å½¢åŒ–ç•Œé¢
 			if(fileHandle.contains("-x") && fileSpit.length == 2){
 				uiFunction.UIView();
 				System.out.println("--------------------------------------------");
-				System.out.println("ÇëÊäÈëÖ¸Áî£º");
+				System.out.println("è¯·è¾“å…¥æŒ‡ä»¤ï¼š");
 				continue;
 			}
 			if(fileHandle.equals("quit")){
-				System.out.println("³ÌĞòÒÑÍË³ö");
+				System.out.println("ç¨‹åºå·²é€€å‡º");
 				break;
 			}
-			//-a,-s,-w,-l,-c²Ù×÷
+			//-a,-s,-w,-l,-cæ“ä½œ
 			if(Pattern.matches(FILEMATCH, fileHandle))
 				fileReader.Chooser(fileSpit);
 			else
-				System.out.println("ÊäÈë´íÎó£¬ÇëÖØĞÂÊäÈë");
+				System.out.println("è¾“å…¥é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥");
 			System.out.println("--------------------------------------------");
-			System.out.println("ÇëÊäÈëÖ¸Áî£º");
+			System.out.println("è¯·è¾“å…¥æŒ‡ä»¤ï¼š");
 		}
 	}
 }
